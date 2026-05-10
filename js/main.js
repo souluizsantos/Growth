@@ -218,29 +218,22 @@
     ring.setAttribute('aria-hidden', 'true');
     document.body.appendChild(ring);
 
-    var targetX = -9999;
-    var targetY = -9999;
-    var currentX = targetX;
-    var currentY = targetY;
-    var rafId = null;
+    var x = -9999;
+    var y = -9999;
     var hasMoved = false;
 
-    function render() {
-      // Smooth follow
-      currentX += (targetX - currentX) * 0.18;
-      currentY += (targetY - currentY) * 0.18;
+    function updateTransform() {
       ring.style.transform =
-        'translate3d(' + currentX + 'px, ' + currentY + 'px, 0) translate(-50%, -50%)';
-      rafId = window.requestAnimationFrame(render);
+        'translate3d(' + x + 'px, ' + y + 'px, 0) translate(-50%, -50%)';
     }
 
     function onMove(e) {
-      targetX = e.clientX;
-      targetY = e.clientY;
+      x = e.clientX;
+      y = e.clientY;
+      updateTransform();
       if (!hasMoved) {
         hasMoved = true;
         ring.classList.add('is-visible');
-        rafId = window.requestAnimationFrame(render);
       }
     }
 
